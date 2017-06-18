@@ -25,7 +25,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/un.h>
-#include <stdio.h>
+#include <stdio.h> 
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -49,7 +49,7 @@ enum commands
 	FIND_STAR,
 	SET_DITHERING_RANGE,
 	GET_RA_DEC_DRIFT,
-
+	CALIBRATE,
 	CMD_MAX
 };
 
@@ -79,6 +79,7 @@ int main(int argc, char *argv[])
 \t\t'FIND_STAR'=12, no params\n \
 \t\t'SET_DITHERING_RANGE'=13, [dr]\n \
 \t\t'GET_RA_DEC_DRIFT'=14, no params\n \
+\t\t'CALIBRATE'=15, no params\n \
 " );
 		return 0;
 	}

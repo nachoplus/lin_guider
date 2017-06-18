@@ -51,6 +51,9 @@ public:
     void update_reticle_pos( double x, double y );
     void set_math( lg_math::cgmath *math );
 
+public slots:
+	void onStartReticleCalibrationButtonClick();
+
 protected slots:
 	void onSquareSizeChanged( int index );
 	void onTwoAxisMode( int state );
@@ -60,7 +63,7 @@ protected slots:
 	void onReticleYChanged( double val );
 	void onReticleAngChanged( double val );
 
-	void onStartReticleCalibrationButtonClick();
+
 	void onStartVideoCalibrationButtonClick();
 
 	void onVideoCalibrationFinished();

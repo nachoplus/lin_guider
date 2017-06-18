@@ -1017,6 +1017,19 @@ void lin_guider::onRemoteCmd( void )
 		answer_sz = snprintf( answer, answer_sz_max, "Error: Out of Range" );
 	}
 		break;
+	case server::CALIBRATE:
+	{
+               answer_sz = snprintf( answer, answer_sz_max, "Calibration Started" );
+
+               reticle_wnd->close();
+               guider_wnd->close();
+
+               m_calibration_params.auto_mode = true;
+
+               onShowCalibration();
+               reticle_wnd->onStartReticleCalibrationButtonClick();
+	}
+		break;
 	default:
 		// write some strange answer
 		answer_sz = snprintf( answer, answer_sz_max, "Error: Unknown command" );
