@@ -30,16 +30,16 @@ static const uint qt_meta_data_rcalibration[] = {
        0,       // signalCount
 
  // slots: signature, parameters, type, tag, flags
-      13,   52,   52,   52, 0x0a,
-      53,   78,   52,   52, 0x09,
-      84,  103,   52,   52, 0x09,
-     109,  103,   52,   52, 0x09,
-     131,  155,   52,   52, 0x09,
-     159,  155,   52,   52, 0x09,
-     185,  155,   52,   52, 0x09,
-     211,  155,   52,   52, 0x09,
-     239,   52,   52,   52, 0x09,
-     276,   52,   52,   52, 0x09,
+      13,   52,   53,   52, 0x0a,
+      58,   52,   53,   52, 0x0a,
+      82,  107,   52,   52, 0x09,
+     113,  132,   52,   52, 0x09,
+     138,  132,   52,   52, 0x09,
+     160,  184,   52,   52, 0x09,
+     188,  184,   52,   52, 0x09,
+     214,  184,   52,   52, 0x09,
+     240,  184,   52,   52, 0x09,
+     268,   52,   52,   52, 0x09,
      305,   52,   52,   52, 0x09,
 
        0        // eod
@@ -47,7 +47,8 @@ static const uint qt_meta_data_rcalibration[] = {
 
 static const char qt_meta_stringdata_rcalibration[] = {
     "rcalibration\0onStartReticleCalibrationButtonClick()\0"
-    "\0onSquareSizeChanged(int)\0index\0"
+    "\0bool\0onFindStarButtonClick()\0"
+    "onSquareSizeChanged(int)\0index\0"
     "onTwoAxisMode(int)\0state\0onEnableAutoMode(int)\0"
     "onDriftTimeChanged(int)\0val\0"
     "onReticleXChanged(double)\0"
@@ -55,7 +56,6 @@ static const char qt_meta_stringdata_rcalibration[] = {
     "onReticleAngChanged(double)\0"
     "onStartVideoCalibrationButtonClick()\0"
     "onVideoCalibrationFinished()\0"
-    "onFindStarButtonClick()\0"
 };
 
 void rcalibration::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -64,17 +64,19 @@ void rcalibration::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
         Q_ASSERT(staticMetaObject.cast(_o));
         rcalibration *_t = static_cast<rcalibration *>(_o);
         switch (_id) {
-        case 0: _t->onStartReticleCalibrationButtonClick(); break;
-        case 1: _t->onSquareSizeChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 2: _t->onTwoAxisMode((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 3: _t->onEnableAutoMode((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 4: _t->onDriftTimeChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 5: _t->onReticleXChanged((*reinterpret_cast< double(*)>(_a[1]))); break;
-        case 6: _t->onReticleYChanged((*reinterpret_cast< double(*)>(_a[1]))); break;
-        case 7: _t->onReticleAngChanged((*reinterpret_cast< double(*)>(_a[1]))); break;
-        case 8: _t->onStartVideoCalibrationButtonClick(); break;
-        case 9: _t->onVideoCalibrationFinished(); break;
-        case 10: _t->onFindStarButtonClick(); break;
+        case 0: { bool _r = _t->onStartReticleCalibrationButtonClick();
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 1: { bool _r = _t->onFindStarButtonClick();
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 2: _t->onSquareSizeChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 3: _t->onTwoAxisMode((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 4: _t->onEnableAutoMode((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 5: _t->onDriftTimeChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 6: _t->onReticleXChanged((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 7: _t->onReticleYChanged((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 8: _t->onReticleAngChanged((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 9: _t->onStartVideoCalibrationButtonClick(); break;
+        case 10: _t->onVideoCalibrationFinished(); break;
         default: ;
         }
     }

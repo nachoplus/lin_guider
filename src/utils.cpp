@@ -23,6 +23,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <unistd.h>
+#include <iostream>
 
 #include <string>
 #include <algorithm>
@@ -49,7 +50,10 @@ void u_msg( const char *fmt, ...)
         text.vsprintf(fmt, argptr);
         va_end (argptr);
 
-        QMessageBox::information( NULL, "Info...", text, QMessageBox::Ok, QMessageBox::Ok );
+        //QMessageBox::information( NULL, "Info...", text, QMessageBox::Ok, QMessageBox::Ok );
+
+	std::string utf8_text = text.toUtf8().constData();
+	std::cout << utf8_text << std::endl;
 
         //QMessageBox::information( this, "Info...", QString().sprintf("test = %d", 13), QMessageBox::Ok, QMessageBox::Ok );
 }

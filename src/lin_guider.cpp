@@ -970,12 +970,11 @@ void lin_guider::onRemoteCmd( void )
 
 	case server::FIND_STAR:
 	{
-		std::vector< std::pair<Vector, double> > stars;
-		bool res = m_math->find_stars( &stars );
+		bool res = reticle_wnd->onFindStarButtonClick();
 		if( !res )
 			answer_sz = snprintf( answer, answer_sz_max, "Error: No suitable star in frame" );
 		else
-			answer_sz = snprintf( answer, answer_sz_max, "%0.2f %0.2f", stars[0].first.x, stars[0].first.y);
+			answer_sz = snprintf( answer, answer_sz_max, "OK: A suitabled star was locked");
 	}
 		break;
 	case server::SET_DITHERING_RANGE:
@@ -1017,17 +1016,32 @@ void lin_guider::onRemoteCmd( void )
 		answer_sz = snprintf( answer, answer_sz_max, "Error: Out of Range" );
 	}
 		break;
+
 	case server::CALIBRATE:
 	{
-               answer_sz = snprintf( answer, answer_sz_max, "Calibration Started" );
 
-               reticle_wnd->close();
-               guider_wnd->close();
+		// close all unnecessary
+		if( setup_video_wnd->isVisible() ) setup_video_wnd->close();
+		if( setup_driver_wnd->isVisible() ) setup_driver_wnd->close();
+		if( recorder_wnd->isVisible() ) recorder_wnd->close();
+		if( settings_wnd->isVisible() ) settings_wnd->close();
+		if( about_wnd->isVisible() ) about_wnd->close();
+		if( guider_wnd->isVisible() ) guider_wnd->close();
+		
 
-               m_calibration_params.auto_mode = true;
 
-               onShowCalibration();
-               reticle_wnd->onStartReticleCalibrationButtonClick();
+		m_calibration_params.two_axis = true;
+		m_calibration_params.auto_mode = true;
+		m_calibration_params.dift_time = 20;
+		m_calibration_params.frame_count=5;
+
+  		if( !reticle_wnd->isVisible() ) reticle_wnd->show();
+        	bool res = reticle_wnd->onStartReticleCalibrationButtonClick();
+		if( !res )
+			answer_sz = snprintf( answer, answer_sz_max, "Error: Fail to calibrate" );
+		else
+			answer_sz = snprintf( answer, answer_sz_max, "OK: Calibrated");
+		reticle_wnd->close();
 	}
 		break;
 	default:

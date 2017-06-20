@@ -52,7 +52,8 @@ public:
     void set_math( lg_math::cgmath *math );
 
 public slots:
-	void onStartReticleCalibrationButtonClick();
+	bool onStartReticleCalibrationButtonClick();
+	bool onFindStarButtonClick();
 
 protected slots:
 	void onSquareSizeChanged( int index );
@@ -62,13 +63,10 @@ protected slots:
 	void onReticleXChanged( double val );
 	void onReticleYChanged( double val );
 	void onReticleAngChanged( double val );
-
-
 	void onStartVideoCalibrationButtonClick();
-
 	void onVideoCalibrationFinished();
 
-	void onFindStarButtonClick();
+
 
 protected:
 	void showEvent ( QShowEvent * event );
@@ -77,9 +75,9 @@ protected:
 
 private:
 	void fill_interface( void );
-	void calibrate_reticle_manual( void );
-	void calibrate_reticle_by_ra( void );     // 1-axis calibration
-	void calibrate_reticle_by_ra_dec( void ); // 2-axis calibration
+	bool calibrate_reticle_manual( void );
+	bool calibrate_reticle_by_ra( void );     // 1-axis calibration
+	bool calibrate_reticle_by_ra_dec( void ); // 2-axis calibration
 	bool check_start_position( void ) const;
 	bool is_started;
 	
