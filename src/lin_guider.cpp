@@ -807,7 +807,7 @@ void lin_guider::onRemoteCmd( void )
 			}
 		}
 		// error
-		answer_sz = snprintf( answer, answer_sz_max, "Unable to get coordinates" );
+		answer_sz = snprintf( answer, answer_sz_max, "ERROR: Unable to get coordinates" );
 	}
 		break;
 	case server::SAVE_FRAME:
@@ -826,17 +826,17 @@ void lin_guider::onRemoteCmd( void )
 				painter.begin( &video_buf );
 				draw_overlays( painter );
 				painter.end();
-				res = video_buf.save( QString( home_dir ) + "/" + QString( fname ) + ".bmp", "BMP" );
+				res = video_buf.save( QString( home_dir ) + "/" + QString( fname ) + ".png", "PNG" );
 			}
 			else
-				res = m_video_buffer->save( QString( home_dir ) + "/" + QString( fname ) + ".bmp", "BMP" );
+				res = m_video_buffer->save( QString( home_dir ) + "/" + QString( fname ) + ".png", "PNG" );
 			if( res )
-				answer_sz = snprintf( answer, answer_sz_max, "OK: saved %s/%s.bmp", home_dir, fname );
+				answer_sz = snprintf( answer, answer_sz_max, "OK: saved %s/%s.png", home_dir, fname );
 			else
-				answer_sz = snprintf( answer, answer_sz_max, "Error: saving:%s/%s.bmp", home_dir, fname );
+				answer_sz = snprintf( answer, answer_sz_max, "ERROR: saving:%s/%s.png", home_dir, fname );
 		}
 		else
-			answer_sz = snprintf( answer, answer_sz_max, "Error: saving:Empty filename" );
+			answer_sz = snprintf( answer, answer_sz_max, "ERROR: Empty filename while saving" );
 	}
 		break;
 	case server::DITHER:
@@ -853,7 +853,7 @@ void lin_guider::onRemoteCmd( void )
 				return;
 			}
 			else
-				answer_sz = snprintf( answer, answer_sz_max, "Error: %s", m_math->get_dither_errstring( tout ) );
+				answer_sz = snprintf( answer, answer_sz_max, "ERROR: %s", m_math->get_dither_errstring( tout ) );
 		}
 		else
 			answer_sz = snprintf( answer, answer_sz_max, "Busy: in progress..." );
@@ -888,7 +888,7 @@ void lin_guider::onRemoteCmd( void )
 			{
 				int res = m_math->dither_no_wait_xy( fabs(rx), fabs(ry) );
 				if (res < 0) {
-					answer_sz = snprintf(answer, answer_sz_max, "Error: %s", m_math->get_dither_errstring( res ));
+					answer_sz = snprintf(answer, answer_sz_max, "ERROR: %s", m_math->get_dither_errstring( res ));
 				} else {
 					m_math->set_visible_overlays( lg_math::ovr_params_t::OVR_RETICLE_ORG, true );
 					answer_sz = snprintf(answer, answer_sz_max, "OK");
@@ -897,7 +897,7 @@ void lin_guider::onRemoteCmd( void )
 			}
 		}
 		// error
-		answer_sz = snprintf( answer, answer_sz_max, "Error: Unable to get offsets" );
+		answer_sz = snprintf( answer, answer_sz_max, "ERROR: Unable to get offsets" );
 	}
 		break;
 	case server::GET_DISTANCE:
@@ -905,7 +905,7 @@ void lin_guider::onRemoteCmd( void )
 		double dx, dy;
 		int res = m_math->get_distance( &dx, &dy );
 		if( res < 0 )
-			answer_sz = snprintf( answer, answer_sz_max, "Error: %s", m_math->get_dither_errstring( res ) );
+			answer_sz = snprintf( answer, answer_sz_max, "ERROR: %s", m_math->get_dither_errstring( res ) );
 		else
 			answer_sz = snprintf( answer, answer_sz_max, "%0.2f %0.2f", dx, dy );
 	}
@@ -913,7 +913,7 @@ void lin_guider::onRemoteCmd( void )
 	case server::GET_RA_DEC_DRIFT:
 	{
 		if (!m_math->is_guiding()) {
-			answer_sz = snprintf( answer, answer_sz_max, "Error: Guiding not started." );
+			answer_sz = snprintf( answer, answer_sz_max, "ERROR: Guiding not started." );
 		} else {
 			double dra, ddec;
 			m_math->get_star_drift( &dra, &ddec );
@@ -930,7 +930,7 @@ void lin_guider::onRemoteCmd( void )
 			if(( strncasecmp( data_str, STRSZ("start") ) != 0 ) &&
 			   ( strncasecmp( data_str, STRSZ("stop") ) != 0 ))
 			{
-				answer_sz = snprintf( answer, answer_sz_max, "Error: Wrong parameter" );
+				answer_sz = snprintf( answer, answer_sz_max, "ERROR: Wrong parameter" );
 				break;
 			}
 
@@ -959,7 +959,7 @@ void lin_guider::onRemoteCmd( void )
 			}
 		}
 		// error
-		answer_sz = snprintf( answer, answer_sz_max, "Error: Unable to get (or wrong) parameter" );
+		answer_sz = snprintf( answer, answer_sz_max, "ERROR: Unable to get (or wrong) parameter" );
 	}
 		break;
 	case server::GET_GUIDER_STATE:
@@ -972,7 +972,7 @@ void lin_guider::onRemoteCmd( void )
 	{
 		bool res = reticle_wnd->onFindStarButtonClick();
 		if( !res )
-			answer_sz = snprintf( answer, answer_sz_max, "Error: No suitable star in frame" );
+			answer_sz = snprintf( answer, answer_sz_max, "ERROR: No suitable star in frame" );
 		else
 			answer_sz = snprintf( answer, answer_sz_max, "OK: A suitabled star was locked");
 	}
@@ -1013,7 +1013,7 @@ void lin_guider::onRemoteCmd( void )
 			}
 		}
 		// error
-		answer_sz = snprintf( answer, answer_sz_max, "Error: Out of Range" );
+		answer_sz = snprintf( answer, answer_sz_max, "ERROR: Out of Range" );
 	}
 		break;
 
@@ -1038,20 +1038,50 @@ void lin_guider::onRemoteCmd( void )
   		if( !reticle_wnd->isVisible() ) reticle_wnd->show();
         	bool res = reticle_wnd->onStartReticleCalibrationButtonClick();
 		if( !res )
-			answer_sz = snprintf( answer, answer_sz_max, "Error: Fail to calibrate" );
+			answer_sz = snprintf( answer, answer_sz_max, "ERROR: Fail to calibrate" );
 		else
 			answer_sz = snprintf( answer, answer_sz_max, "OK: Calibrated");
 		reticle_wnd->close();
 	}
 		break;
+	case server::EXIT:
+	{
+		answer_sz = snprintf( answer, answer_sz_max, "OK: Exiting" );
+		onActionExit();
+	}
+		break;
+       case server::SET_VIDEO_GAIN:
+       {
+
+               video_drv::post_param_t prm;
+               video_drv::param_val_t val;
+               memset( &prm, 0, sizeof(video_drv::post_param_t) );
+
+               long newgain;
+               u_make_safe_str( (const char*)data, data_sz, sizeof(data_str), data_str, &data_str_len );
+               newgain = strtol( data_str, NULL, NULL );
+
+               answer_sz = snprintf( answer, answer_sz_max, "OK: Setting video gain" );
+
+               m_capture_params = m_video->get_capture_params();
+
+               m_capture_params.gain = newgain;
+
+               val.set( m_capture_params.gain );
+               m_video->pack_params( video_drv::CI_GAIN, val, &prm );
+               m_video->post_params( prm );
+
+       }
+               break;
 	default:
 		// write some strange answer
-		answer_sz = snprintf( answer, answer_sz_max, "Error: Unknown command" );
+		answer_sz = snprintf( answer, answer_sz_max, "ERROR: Unknown command" );
 	}
 
 	// return connection to server
 	pconn->answer_sz = answer_sz;
 	m_server->return_conn( pconn );
+	msg(answer);
 }
 
 

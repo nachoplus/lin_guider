@@ -117,6 +117,8 @@ server::server( const net_params_t &nparams ) :
 	m_cmd_names.insert( std::make_pair( server::SET_DITHERING_RANGE, "SET_DITHERING_RANGE" ) );
 	m_cmd_names.insert( std::make_pair( server::GET_RA_DEC_DRIFT, "GET_RA_DEC_DRIFT" ) );
 	m_cmd_names.insert( std::make_pair( server::CALIBRATE, "CALIBRATE" ) );
+	m_cmd_names.insert( std::make_pair( server::EXIT, "EXIT" ) );
+	m_cmd_names.insert( std::make_pair( server::SET_VIDEO_GAIN, "SET_VIDEO_GAIN" ) );
 }
 
 
@@ -131,7 +133,7 @@ void server::start( void )
 	if( m_initialized )
 		return;
 
-	// init thread staff
+	// init thread staffCALIBRATE
 	pthread_mutex_init( &m_mtx, NULL );
 	pthread_mutex_init( &m_in_mtx, NULL );
 	pthread_mutex_init( &m_out_mtx, NULL );

@@ -23,15 +23,24 @@
 #include <string.h>
 #include <stdarg.h>
 #include <unistd.h>
-#include <iostream>
 
-#include <string>
+
+
 #include <algorithm>
 
 #include <QFileInfo>
 
 #include "utils.h"
 
+
+void msg( const char *txt) {
+/* wrapper to avoid modal windows on remote control */
+	if (true) {
+		fprintf( stderr, "[%s]\n", txt );;
+	} else {
+		u_msg(txt);
+	}
+}
 
 void u_msg( const char *fmt, ...)
 {
@@ -50,10 +59,8 @@ void u_msg( const char *fmt, ...)
         text.vsprintf(fmt, argptr);
         va_end (argptr);
 
-        //QMessageBox::information( NULL, "Info...", text, QMessageBox::Ok, QMessageBox::Ok );
+        QMessageBox::information( NULL, "Info...", text, QMessageBox::Ok, QMessageBox::Ok );
 
-	std::string utf8_text = text.toUtf8().constData();
-	std::cout << utf8_text << std::endl;
 
         //QMessageBox::information( this, "Info...", QString().sprintf("test = %d", 13), QMessageBox::Ok, QMessageBox::Ok );
 }
@@ -61,6 +68,7 @@ void u_msg( const char *fmt, ...)
 
 bool u_yes( const QString &question )
 {
+return true;
 	if( QMessageBox::question( NULL, "Question", question, QMessageBox::Yes | QMessageBox::No ) == QMessageBox::Yes )
 	    return true;
 

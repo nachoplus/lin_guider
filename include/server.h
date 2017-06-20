@@ -230,7 +230,9 @@ public:
 		FIND_STAR,
 		SET_DITHERING_RANGE,
 		GET_RA_DEC_DRIFT,
-		CALIBRATE
+		CALIBRATE,
+		EXIT,
+		SET_VIDEO_GAIN
 	};
 	enum sizes
 	{

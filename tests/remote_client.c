@@ -50,6 +50,7 @@ enum commands
 	SET_DITHERING_RANGE,
 	GET_RA_DEC_DRIFT,
 	CALIBRATE,
+	EXIT,
 	CMD_MAX
 };
 
@@ -80,6 +81,8 @@ int main(int argc, char *argv[])
 \t\t'SET_DITHERING_RANGE'=13, [dr]\n \
 \t\t'GET_RA_DEC_DRIFT'=14, no params\n \
 \t\t'CALIBRATE'=15, no params\n \
+\t\t'EXIT'=16, no params\n \
+\t\t'SET_VIDEO_GAIN'=17, [gain]\n \
 " );
 		return 0;
 	}

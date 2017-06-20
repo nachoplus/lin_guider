@@ -295,8 +295,8 @@ bool rcalibration::onStartReticleCalibrationButtonClick()
 {
 	if( !check_start_position() )
 	{
-		log_i( "Start point is too close to matrix edge(s)" );
-		u_msg( "Start point is too close to matrix edge(s)" );
+		msg( "ERROR: Start point is too close to matrix edge(s)" );
+		//u_msg( "Start point is too close to matrix edge(s)" );
 		return false;
 	}
 
@@ -409,7 +409,7 @@ bool rcalibration::calibrate_reticle_manual( void )
 					if( swap_dec )
 					{
 						pmain_wnd->m_driver->swap_dec_bits();
-						log_i( "DEC control bits swapped" );
+						msg( "DEC control bits swapped" );
 					}
 					fill_interface();
 					ui.l_RStatus->setText( tr("State: DONE") );
@@ -418,7 +418,7 @@ bool rcalibration::calibrate_reticle_manual( void )
 				{
 					ui.l_RStatus->setText( tr("State: ERR") );
 					//QMessageBox::warning( this, tr("Error"), tr("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
-					log_i("ERROR: Calibration rejected. Start drift is too short." );
+					msg("ERROR: Calibration rejected. Start drift is too short." );
 				}
 			}
 		}
@@ -435,7 +435,7 @@ bool rcalibration::calibrate_reticle_manual( void )
 			{
 				ui.l_RStatus->setText( tr("State: ERR") );
 				//QMessageBox::warning( this, tr("Error"), tr("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
-				log_i("ERROR: Calibration rejected. Start drift is too short." );
+				msg("ERROR: Calibration rejected. Start drift is too short." );
 			}
 		}
 
@@ -502,7 +502,7 @@ bool rcalibration::calibrate_reticle_by_ra( void )
 		if( !m_math->is_valid_pos( cur_x, cur_y ) ) // star is near screen edge! stop drive
 		{
 			pmain_wnd->m_driver->reset();
-			log_i( "ERROR: Star is near matrix edge. Stopping drive" );
+			msg( "ERROR: Star is near matrix edge. Stopping drive" );
 			break;
 		}
 	}
@@ -553,7 +553,7 @@ bool rcalibration::calibrate_reticle_by_ra( void )
 
 	if( !auto_term_ok )
 		//QMessageBox::warning( this, tr("Warning"), tr("RA: Scope can't reach the start point in ") + QString().number(turn_back_time) + tr("secs.\nPossible mount or drive problems..."), QMessageBox::Ok );
-		log_i( "ERROR: RA: Scope can't reach the start point\nPossible mount or drive problems...");
+		msg( "ERROR: RA: Scope can't reach the start point\nPossible mount or drive problems...");
 
 	// calc orientation
 	if( m_math->calc_and_set_reticle( start_x1, start_y1, end_x1, end_y1, ra_drift_tm ) )
@@ -565,7 +565,7 @@ bool rcalibration::calibrate_reticle_by_ra( void )
 	{
 		ui.l_RStatus->setText( tr("State: ERR") );
 		//QMessageBox::warning( this, tr("Error"), tr("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
-		log_i("ERROR: Calibration rejected. Start drift is too short." );
+		msg("ERROR: Calibration rejected. Start drift is too short." );
 		return false;
 	}
 
@@ -633,7 +633,7 @@ bool rcalibration::calibrate_reticle_by_ra_dec( void )
 			if( !m_math->is_valid_pos( cur_x, cur_y ) ) // star is near screen edge! stop drive
 			{
 				pmain_wnd->m_driver->reset();
-				log_i( "ERROR: Star is near matrix edge. Stopping drive" );
+				msg( "ERROR: Star is near matrix edge. Stopping drive" );
 				break;
 			}
 		}
@@ -684,7 +684,7 @@ bool rcalibration::calibrate_reticle_by_ra_dec( void )
 
 		if( !auto_term_ok )
 			//QMessageBox::warning( this, tr("Warning"), tr("RA: Scope can't reach the start point in ") + QString().number(turn_back_time) + tr("secs.\nPossible mount or drive problems..."), QMessageBox::Ok );
-		log_i("ERROR: RA: Scope can't reach the start point\nPossible mount or drive problems..." );
+		msg("ERROR: RA: Scope can't reach the start point.Possible mount or drive problems..." );
 	}
 
 	//----- DEC axis -----
@@ -715,7 +715,7 @@ bool rcalibration::calibrate_reticle_by_ra_dec( void )
 			if( !m_math->is_valid_pos( cur_x, cur_y ) ) // star is near screen edge! stop drive
 			{
 				pmain_wnd->m_driver->reset();
-				log_i( "ERROR: Star is near matrix edge. Stopping drive" );
+				msg( "ERROR: Star is near matrix edge. Stopping drive" );
 				break;
 			}
 		}
@@ -766,7 +766,7 @@ bool rcalibration::calibrate_reticle_by_ra_dec( void )
 
 		if( !auto_term_ok )
 			//QMessageBox::warning( this, tr("Warning"), tr("DEC: Scope can't reach the start point in ") + QString().number(turn_back_time) + tr("secs.\nPossible mount or drive problems..."), QMessageBox::Ok );
-		log_i("ERROR: RA: Scope can't reach the start point\nPossible mount or drive problems..." );
+		msg("ERROR: RA: Scope can't reach the start point.Possible mount or drive problems..." );
 	}
 
 	log_i("RA: sx1=%f sy1=%f ex1=%f ey1=%f DEC: sx2=%f sy2=%f ex2=%f ey2=%f", start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2);
@@ -778,7 +778,7 @@ bool rcalibration::calibrate_reticle_by_ra_dec( void )
 		if( swap_dec )
 		{
 			pmain_wnd->m_driver->swap_dec_bits();
-			log_i( "DEC control bits swapped" );
+			msg( "DEC control bits swapped" );
 		}
 
 		fill_interface();
@@ -788,7 +788,7 @@ bool rcalibration::calibrate_reticle_by_ra_dec( void )
 	{
 		ui.l_RStatus->setText( tr("State: ERR") );
 		//QMessageBox::warning( this, tr("Error"), tr("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
-		log_i("ERROR: Calibration rejected. Start drift is too short." );
+		msg("ERROR: Calibration rejected. Start drift is too short." );
 		return false;
 	}
 
@@ -824,7 +824,7 @@ bool rcalibration::onFindStarButtonClick()
 	bool res = m_math->find_stars( &stars );
 	if( !res )
 	{
-		u_msg( "No suitable star in frame" );
+		msg( "ERROR: No suitable star in frame" );
 		return false;
 	}
 

@@ -52,6 +52,7 @@
 
 bool u_yes( const QString &question );
 void u_msg( const char *fmt, ...);
+void msg( const char *txt);
 //void U_Error( char *fmt, ...);
 
 double u_pow( double a, int n );
