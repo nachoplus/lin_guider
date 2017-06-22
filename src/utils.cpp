@@ -36,7 +36,11 @@
 void msg( const char *txt) {
 /* wrapper to avoid modal windows on remote control */
 	if (true) {
-		fprintf( stderr, "[%s]\n", txt );;
+		struct timespec time;
+		clock_gettime( CLOCK_REALTIME, &time );
+		fprintf( stderr, "[%ld:%.3ld] ", time.tv_sec, time.tv_nsec/1000000 );
+		fprintf( stderr, "%s\n", txt );
+		fflush(stderr);
 	} else {
 		u_msg(txt);
 	}
