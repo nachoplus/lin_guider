@@ -6,7 +6,6 @@ import sys
 import socket
 import struct
 import time
-import signal
 import subprocess
 
 
@@ -24,7 +23,7 @@ class linguider:
 		'GET_DISTANCE':6,'SAVE_FRAME_DECORATED':7,'GUIDER':8,'GET_GUIDER_STATE':9,'SET_GUIDER_OVLS_POS':1,\
 		'SET_GUIDER_RETICLE_POS':11,'FIND_STAR':12,'SET_DITHERING_RANGE':13,'GET_RA_DEC_DRIFT':14,'CALIBRATE':15,\
 		'EXIT':16,'SET_VIDEO_GAIN':17}
-		signal.signal(signal.SIGINT, self.signal_handler)
+		#signal.signal(signal.SIGINT, self.end)
 
 
 
@@ -49,7 +48,7 @@ class linguider:
 	def send(self,cmd,arg=''):
 		l=len(arg)
 		values = (2, cmd, l)
-		packer = struct.Struct('HHL')
+		packer = struct.Struct('<HHL')
 		packed_data = packer.pack(*values)
 		print "Sending ",cmd
 		try:
@@ -70,7 +69,7 @@ class linguider:
 			time.sleep(every)
  
 
-	def signal_handler(self,signal, frame):
+	def end(self):
 		print 'You pressed Ctrl+C!'
 		print self.send(self.commands['EXIT'])
 		print "Wait for clossing..."
@@ -84,6 +83,7 @@ class linguider:
 	def startLinGuider(self):
 		self.linguider = subprocess.Popen(['../lin_guider'], 
                         stdout=subprocess.PIPE,
+			stderr=subprocess.STDOUT,
 			bufsize=0
 		        )
 
@@ -92,15 +92,19 @@ class linguider:
 	@threaded
 	def watchlog(self):
 		while self.RUN:
-		    line=self.linguider.stdout.read()
-		    if ('SRV: listening on TCP port 5656' in line):
-			print "LINGUIDER SERVER STARTED"
-		    if ('ERROR: video thread: read_frame error' in line):
-			print "VIDEO DEVICE FAIL"
-		    print line
+		    for line in iter(self.linguider.stdout.readline, b''):
+    			print(">>> " + line.rstrip())
+		    	if ('SRV: listening on TCP port 5656' in line):
+				print "LINGUIDER SERVER STARTED"
+		    	if ('ERROR: video thread: read_frame error' in line):
+				print "VIDEO DEVICE FAIL"
+			if ('SRV:stopped' in line):
+				print "SERVER STOPPED"
+				self.RUN=False
 
 
-
+	def __exit__(self):
+		self.end()
 
 
 if __name__ == '__main__':
